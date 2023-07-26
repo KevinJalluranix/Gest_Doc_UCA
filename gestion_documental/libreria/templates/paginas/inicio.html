@@ -1,0 +1,44 @@
+{% extends 'base_inicio.html' %}
+
+{% block titulo %} Inicio {% endblock %}
+
+{% block contenido %}
+
+<style>
+  .card-header {
+    text-align: center;
+  }
+  
+  .btn-success {
+    padding: 10px 20px;
+    background-color: #a39c09;
+    border-color: #a39c09;
+    color: #fff;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-success:hover {
+    background-color: #15bbe0;
+  }
+</style>
+
+</style>
+
+<br><br><br><br><br>
+<div style="text-align: center;">
+  <div class="container-fluid py-5" style="padding: 20px; border-radius: 10px;">
+      <h1 class="display-5 fw-bold" style="color: #06f8fc; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Bienvenido, {{user.nombres}}</h1>
+      <p class="fs-5 fw-bold" style="color: #ffffff; text-shadow: 6px 6px 8px rgba(7, 253, 167, 0.5), 0 0 15px rgba(250, 8, 8, 0.3);">"Optimiza tu flujo de trabajo, gestiona tus documentos de manera eficiente y obtén reportes precisos. ¡Comienza hoy mismo a sacar el máximo provecho de tu software de gestión documental!"</p>
+  </div>
+
+  <div class="card-header">
+    <a name="" id="" class="btn btn-success" href="{% url 'vacaciones' %}?op=1 " role="button">Vacaciones Pendientes</a>
+    <a name="" id="" class="btn btn-success" href="{% url 'licencias' %}?op=1" role="button">Licencias Con Goce</a>
+  </div>
+
+</div>
+
+
+
+
+{% endblock %}

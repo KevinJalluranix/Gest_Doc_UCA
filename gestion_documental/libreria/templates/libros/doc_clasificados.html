@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Documentos de pendientes{% endblock %}
+
+
+{% block contenido2 %} Documentos pendientes {% endblock %}
+
+{% block contenido %}
+
+<style>
+
+    td, th {
+      padding: 5px; 
+      font-size: 12px; 
+    }
+    
+</style>
+<div class="card">
+    <div class="card-header" style="text-align: center;">
+        <input style="width: 200px;" id="buscar" type="text" class="form-control" placeholder="Buscar" />
+    </div>
+    
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="tabla" class="table table-primary table-hover">
+                <thead>
+                    <tr style="color:rgb(0, 0, 0)">
+                        <th scope="col">ID</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Número</th>
+
+                        <th scope="col">Procedencia/Personal</th>
+    
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Mes</th>
+                        <th scope="col">¿Registrado?</th>
+                        <th scope="col">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for libro_info in libros %}
+                    <tr class="">
+                        {% with libro=libro_info.libro %}
+
+                        <td scope="row">{{ libro.id }}</td>
+                        <td>{{ libro.descripcion }}</td>
+                        <td>{{ libro.tipo_documento.tipo_documento }}</td>
+                        <td>{{ libro.numero }}</td>
+
+                        {% if libro.procedencia %}
+                            <td>{{ libro.procedencia.unidad_cip }}</td>
+                        {% endif %}
+                        {% if libro.personal %}
+                            <td>{{ libro.personal.nombres }} {{ libro.personal.apellidos }}</td>
+                        {% endif %}
+
+                        <td>{{ libro.fecha }}</td>
+                        <td>{{ libro.mes }}</td>
+                        <td style=" text-align: center;">
+
+                            {% if libro.registrado %}
+                                <i class="fas fa-check-circle" style="color: green; " ></i>
+                            {% else %}
+                                <i class="fas fa-times-circle" style="color: red;"></i>
+                            {% endif %}
+
+                        </td>
+                        
+                        <td> 
+                            <a name="" id="" class="btn btn-success" href="{% url 'ver_documento' libro.id libro_info.pos %}" role="button"><i class="fas fa-file"></i></a>
+                        </td>
+                        {% endwith %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    var busqueda = document.getElementById('buscar');
+    var table = document.getElementById("tabla").tBodies[0];
+  
+    buscaTabla = function(){
+      texto = busqueda.value.toLowerCase();
+      var r=0;
+      while(row = table.rows[r++])
+      {
+        if ( row.innerText.toLowerCase().indexOf(texto) !== -1 )
+          row.style.display = null;
+        else
+          row.style.display = 'none';
+      }
+    }
+  
+    busqueda.addEventListener('keyup', buscaTabla);
+</script>
+{% endblock %}

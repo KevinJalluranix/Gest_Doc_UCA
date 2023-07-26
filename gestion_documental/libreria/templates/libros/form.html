@@ -1,0 +1,125 @@
+<form enctype="multipart/form-data" method="post">
+
+    {% csrf_token %}
+
+
+    
+    {% for campo in formulario %}
+
+    <div class="mb-3">
+
+      {% if campo.name == 'tipo_cargo' %}
+
+
+      {% else %}
+        <label for="" class="form-label">{{campo.label}}:</label><br>
+      {% endif %}
+
+
+      {% if campo.field.widget.input_type == 'file' and campo.value %}
+        <label style="color: blue">{{ campo.value }}</label>
+        <br>
+      {% endif %}
+
+
+      {% if campo.name == 'tipo_documento' %}
+
+        <select name="{{ campo.name }}" id="" class="form-control" >
+          {% for doc in tipos_doc %}
+            <option value="{{ doc.id }}" {% if doc.id == campo.value %} selected {% endif %}>{{ doc.tipo_documento }}</option>
+          {% endfor %}
+        </select>
+      
+      {% elif campo.name == 'mes' %}
+        <select class="form-control"  name="{{ campo.name }}">
+          {% for valor, etiqueta in campo.field.choices %}
+            {% if valor == campo.value %}
+              <option value="{{ valor }}" selected>{{ etiqueta }}</option>
+            {% else %}
+              <option value="{{ valor }}">{{ etiqueta }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      
+      {% elif campo.name == 'personal' %}
+        <select name="{{ campo.name }}" id="{{ campo.name }}" class="form-control">
+          <option value="" >Seleccione</option>
+          {% for user in personal %}
+            <option value="{{ user.id }}" {% if user.id == campo.value %} selected {% endif %}>{{ user.nombres }} {{ user.apellidos }}</option>
+          {% endfor %}
+        </select>
+      
+      {% elif campo.name == 'procedencia' %}
+        <select name="{{ campo.name }}" id="{{ campo.name }}" class="form-control" >
+          <option value="" >Seleccione</option>
+          {% for unidad in procedencia %}
+            <option value="{{ unidad.id }}" {% if unidad.id == campo.value %} selected {% endif %}>{{ unidad.unidad_cip }}</option>
+          {% endfor %}
+        </select>
+      
+      {% elif campo.name == 'registrado' %}
+        <input type="checkbox" name="{{ campo.name }}" {% if campo.value %}checked{% endif %}>  
+        
+
+      {% elif campo.name == 'fecha' %}
+        <input type="hidden" id="campoOculto" name="campoOculto" value="{{campo.value}}">
+        <input class="form-control" type="date" name="{{ campo.name }}" id="{{ campo.name }}" value="">      
+      
+      {% elif campo.name == 'tipo_cargo' %}
+        <input type="hidden" class="form-control" name="{{ campo.name }}" value="{{datos.id}}">
+
+      {% else %}
+        <input 
+          type="{{ campo.field.widget.input_type }}"
+          class="form-control" 
+          name="{{campo.name}}" 
+          id="{{campo.name}}" 
+          aria-describedby="helpId" 
+          placeholder="{{campo.label}}"
+          value = "{{campo.value | default:''}}"
+          >
+
+        {% endif %}
+    </div>
+
+    <div style="color:red" class="col-12-help-text">{{campo.errors}}</div>
+
+    {% endfor %}
+
+
+
+
+    <input name="" id="" class="btn btn-success" type="submit" value="Enviar informacion">
+    <a name="" id="" class="btn btn-primary" href="{% url 'iterador' pos %}" role="button">Cancelar</a>
+
+</form>
+<script>
+
+//modificar fecha
+  var fechaOculta = document.getElementById("campoOculto").value;
+  var fecha = new Date(fechaOculta);
+  var fechaFormateada = fecha.toLocaleDateString("en-CA");
+  document.getElementById("fecha").value = fechaFormateada;
+
+
+//cambiar
+  var personalSelect = document.querySelector("select[name='personal']");
+  var procedenciaSelect = document.querySelector("select[name='procedencia']");
+  
+
+  personalSelect.addEventListener('change', function() {
+    if (personalSelect.value !== '') {
+      procedenciaSelect.value = '';
+    }
+  });
+  
+
+  procedenciaSelect.addEventListener('change', function() {
+    if (procedenciaSelect.value !== '') {
+      personalSelect.value = '';
+    }
+  });
+
+
+</script>
+

@@ -1,0 +1,79 @@
+{% extends 'base_inicio.html' %}
+
+{% block titulo %} Inicio {% endblock %}
+
+{% block contenido %}
+
+<div class="card" style="width: 300px;margin: 7% auto;">
+    <div class="card-header" style="text-align: center;">
+       <b>Generar Reporte</b>
+    </div>
+    <div class="card-body">
+        <form enctype="multipart/form-data" method="post">
+
+            <label for="campoPersonal" class="form-label">Personal:</label>
+            <select id="campoPersonal" name="personal" class="form-control">
+              <option value="">Seleccione</option>
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.nombres }} {{ user.apellidos }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            
+            <label for="campoProcedencia" class="form-label">Procedencia:</label>
+            <select id="campoProcedencia" name="procedencia" class="form-control">
+              <option value="">Seleccione</option>
+                {% for unid in procedencia %}
+                    <option value="{{ unid.id }}">{{ unid.unidad_cip }}</option>
+                {% endfor %}
+            </select>
+
+            <br>
+            <label for="campoFecha" class="form-label">Despues de:</label>
+            <input type="date" id="campoFecha" name="fecha" class="form-control" value="">
+            
+            <br>
+            
+            <label for="campoTipo" class="form-label">Informe de:</label>
+            <select id="campoTipo" name="tipo" class="form-control">
+              <option value="1">Todo</option>
+              <option value="2">Comisión de Servicio</option>
+              <option value="3">Informes</option>
+              <option value="4">Licencias</option>
+              <option value="5">Vacaciones</option>
+              <option value="6">Justificaciones</option>
+            </select>
+            
+
+            <br>
+            <input name="" id="" class="btn btn-success" type="submit" value="Enviar informacion">
+            <a name="" id="" class="btn btn-danger" href="" role="button">Cancelar</a>
+          </form>
+          
+    </div>
+</div>
+
+<script>
+
+    //cambiar
+      var personalSelect = document.querySelector("select[name='personal']");
+      var procedenciaSelect = document.querySelector("select[name='procedencia']");
+      
+    
+      personalSelect.addEventListener('change', function() {
+        if (personalSelect.value !== '') {
+          procedenciaSelect.value = '';
+        }
+      });
+      
+    
+      procedenciaSelect.addEventListener('change', function() {
+        if (procedenciaSelect.value !== '') {
+          personalSelect.value = '';
+        }
+      });
+    
+    
+    </script>
+
+{% endblock %}

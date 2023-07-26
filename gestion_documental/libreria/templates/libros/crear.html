@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Crear de libros {% endblock %}
+
+{% block contenido %}
+
+<div class="card">
+    <div class="card-header">
+        Crear un nuevo Registro
+    </div>
+    <div class="card-body">
+        {% include 'libros/form.html'  %}
+    </div>
+    <div class="card-footer text-muted"></div>
+</div>
+
+{% endblock %}
